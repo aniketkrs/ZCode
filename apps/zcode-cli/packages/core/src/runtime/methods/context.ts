@@ -65,6 +65,10 @@ export async function ensureContextInitialized(
   this.skillLoadOutcome = await this.discoverSkillsForContext(traceContext);
   this.memoryRoot = await this.loadProjectMemoryRoot(traceContext);
   this.memoryIndexContent = await loadProjectMemoryIndexContent(this, this.memoryRoot);
+  // Soul constitution: loaded once per session, before the context builder
+  // compiles the system prompt. Entry-lint failures throw and fail session
+  // start with a descriptive message — never a silent no-soul session.
+  this.soul = await this.loadSoulForSession(traceContext);
   this.contextBuilder = this.createContextBuilderFromSnapshot(snapshot, this.memoryRoot, {
     memoryIndexContent: this.memoryIndexContent,
     model,
@@ -135,6 +139,7 @@ export function createContextBuilderFromSnapshot(
     skillMetadataBudget: this.config.skillMetadataBudget,
     customSystemPrompt: this.config.systemPrompt,
     workflowActor: this.config.workflowActor,
+    soul: this.soul,
     language: this.config.language,
     outputStyle: this.config.outputStyle,
     compact: this.config.compact,
