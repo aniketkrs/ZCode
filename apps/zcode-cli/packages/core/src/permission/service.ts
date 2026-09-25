@@ -21,6 +21,11 @@ import { webFetchRuleSubjects, wildcardToRegExp } from "./rule-matching.js";
 import { isPreapprovedWorkflowDraftWrite } from "./workflow-draft-path.js";
 import { applyPermissionUpdates } from "../tool/executor/permission-rules.js";
 import { isWebFetchPreapprovedUrl } from "../tool/webfetch-preapproved.js";
+import {
+  SOUL_FORMATION_GUARD_RULE_ID,
+  denialMessage as soulDenialMessage,
+  isProtectedWriteTarget,
+} from "../soul/guard.js";
 import type { ToolPermissionRulePolicy } from "../tool/types.js";
 
 // -----------------------------------------------
@@ -101,6 +106,22 @@ export class PermissionService {
     rulePolicy?: ToolPermissionRulePolicy,
   ): PermissionDecisionResult {
     const capability = this.resolveCapability(context, toolCapability);
+
+    // Soul formation guard. Agents may never edit SOUL.md or its paired eval
+    // artifacts: axioms change only by human edit plus a full eval re-run.
+    // This runs before every configurable permission rule so no rule or
+    // "always" grant can override it. Human edits in their own editor never
+    // pass through this path and are unaffected.
+    const soulGuardTarget = isProtectedWriteTarget(context.toolName, context.input);
+    if (soulGuardTarget !== undefined) {
+      return this.deny(
+        context,
+        capability,
+        SOUL_FORMATION_GUARD_RULE_ID,
+        soulDenialMessage(soulGuardTarget),
+      );
+    }
+
     const planModeTransition = resolvePlanModeTransitionPermission(context);
 
     if (planModeTransition) {
