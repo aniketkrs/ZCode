@@ -22,6 +22,7 @@ export const zhCN: ZCodeCopy = {
   logout     删除共享的 Z.AI 登录凭据
   plugins    管理插件与市场（\`plugins list|install|uninstall|enable|disable|update|validate|marketplace ...\`；别名 plugin）
   skills     列出本地 skills（\`skills list\`）
+  soul       校验并评测可测试的 SOUL.md 宪法（\`soul validate|eval\`）
   tui        打开终端 UI
   version    打印 CLI 版本
 
