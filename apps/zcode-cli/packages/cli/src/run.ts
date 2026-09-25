@@ -24,6 +24,7 @@ import { isDwfChildInvocation, runDwfChildCommand } from "./dwf-child-command.js
 import { runPrompt } from "./prompt-command.js";
 import { runPluginsCommand, type PluginsCommandFlags } from "./plugins-command.js";
 import { runSkillsCommand } from "./skills-command.js";
+import { runSoulCommand } from "./soul-command.js";
 import { runTuiCommand } from "./tui-command.js";
 import type {
   CliPermissionMode,
@@ -568,6 +569,8 @@ export const run = async (ctx: RunContext, deps: RunDependencies = {}): Promise<
       );
     case "skills":
       return await runSkillsCommand(ctx, options, commandDeps, parsed.positionals.slice(1));
+    case "soul":
+      return await runSoulCommand(ctx, options, commandDeps, parsed.positionals.slice(1));
     case "tui":
       return await runTuiCommand(
         ctx,
