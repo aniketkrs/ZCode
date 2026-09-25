@@ -22,6 +22,7 @@ Commands:
   logout     Remove the shared Z.AI login credentials
   plugins    Manage plugins and marketplaces (\`plugins list|install|uninstall|enable|disable|update|validate|marketplace ...\`; alias: plugin)
   skills     List local skills (\`skills list\`)
+  soul       Validate and eval a testable SOUL.md constitution (\`soul validate|eval\`)
   tui        Open the terminal UI
   version    Print the CLI version
 
