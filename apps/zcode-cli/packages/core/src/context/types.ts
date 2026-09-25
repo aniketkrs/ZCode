@@ -13,6 +13,7 @@ import type {
 } from "@zcode/contracts";
 import type { AutoCompactPolicyConfig } from "../compact/index.js";
 import type { AgentProfile } from "../subagent/profile.js";
+import type { SoulFile } from "../soul/soul.js";
 
 export type {
   EnvInfo,
@@ -47,7 +48,8 @@ export type ContextSource =
   | "session_guidance" // 当前可用内置能力指导
   | "output_style" // 输出风格
   | "context_management" // 长上下文管理提示
-  | "desktop_context"; // ZCode Desktop 渲染与交互协议
+  | "desktop_context" // ZCode Desktop 渲染与交互协议
+  | "soul"; // 可测试的 Soul 宪法层（SOUL.md 编译）
 
 export type ContextInjectionTarget = "system" | "meta_user";
 
@@ -115,6 +117,12 @@ export interface ContextBuilderConfig {
   embeddedSearchEnabled?: boolean;
   skillMetadataBudget?: number;
   customSystemPrompt?: string;
+  /**
+   * Session-start loaded SOUL.md. Compiled into the system prompt after
+   * project instructions. Undefined when no soul file exists or it failed
+   * the entry lint (rejected souls never reach the model).
+   */
+  soul?: SoulFile;
   /**
    * 动态工作流子代理（workflow child）的身份输入。在场即走 builder 的第三条路径：
    * 基座段（CLI prefix、安全行、Harness、memory）+ 工作流子代理契约 + persona 叠加，
