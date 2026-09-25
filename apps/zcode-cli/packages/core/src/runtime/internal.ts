@@ -54,6 +54,7 @@ import type { AgentRuntimeCoreMethods } from "./internal-methods.js";
 import type { AgentRuntimeTurnMethods } from "./internal-turn-methods.js";
 import type { AgentRuntimeHookMethods } from "./internal-hook-methods.js";
 import type { ProjectMemoryExtractionScheduler } from "./helpers/project-memory-extraction.js";
+import type { SoulFile } from "../soul/soul.js";
 import type { RuntimeTelemetryFacade } from "../telemetry/runtime-telemetry.js";
 import type { WorkspaceHookRuntimeAdmissionPort } from "../hooks/workspace-hook-runtime-admission.js";
 
@@ -93,6 +94,8 @@ export interface AgentRuntimeInternal
   memoryRoot?: string;
   memoryIndexContent?: string;
   memoryExtractionScheduler?: ProjectMemoryExtractionScheduler;
+  /** Session-start loaded SOUL.md; undefined when absent or entry-lint rejected. */
+  soul?: SoulFile;
   contextSourcePort?: ContextSourcePort;
   skillPort?: SkillPort;
   mcpPort?: McpPort;
