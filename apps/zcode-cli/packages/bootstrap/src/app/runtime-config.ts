@@ -1,4 +1,5 @@
 import type { ConfigResult } from "@zcode/adapters/config";
+import { join } from "node:path";
 import { resolveInitialModelSelection, type ModelSelectionOptions } from "@zcode/provider";
 import { resolveBashTimeoutPolicy, type AgentProfile, type AgentRuntimeConfig } from "@zcode/core";
 import { type BuiltInSubagentModelSelectionOverrides } from "@zcode/shared";
@@ -56,6 +57,7 @@ export function resolveAppRuntimeConfig(input: {
     pluginRuntimeFeatures,
     subagentOutputRootDir,
     subagentProfiles = [],
+    storageRoot,
     workingDirectory,
     workspaceIdentity,
   } = input;
@@ -147,6 +149,14 @@ export function resolveAppRuntimeConfig(input: {
       maxConcurrency:
         options.runtimeConfig?.toolConcurrency?.maxConcurrency ??
         configResult.config.toolConcurrency.maxConcurrency,
+    },
+    // Soul constitution layer: session-start SOUL.md lookup falls back to the
+    // personal config dir when no project soul file is found. Follows the
+    // established <base>/.zcode/v2 convention for user-level files
+    // (see credentials at <base>/.zcode/v2/credentials.json): the global
+    // SOUL.md lives at <storageRoot>/v2/SOUL.md (default ~/.zcode/v2).
+    soul: {
+      globalSoulDir: join(storageRoot ?? cliStorageRoot, "v2"),
     },
     modelAnomalyGuard: {
       ...configResult.config.modelAnomalyGuard,
