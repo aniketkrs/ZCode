@@ -128,6 +128,56 @@ export type {
 } from "./permission/index.js";
 export type { PermissionConfig } from "./permission/index.js";
 
+// Soul — testable constitution layer
+export {
+  SOUL_BASELINE_FILENAME,
+  SOUL_FILENAME,
+  SOUL_FORMATION_GUARD_RULE_ID,
+  SOUL_SUITE_FILENAME,
+  SoulLoadError,
+  compileSystemSection,
+  computeMetrics,
+  defaultGlobalSoulDir,
+  denialMessage,
+  entryLint,
+  evaluateGates,
+  extractWriteTargetPath,
+  gradeProbe,
+  isProtectedEditTarget,
+  isProtectedWriteTarget,
+  isSoulFilename,
+  lintSuite,
+  loadSoul,
+  parseResponses,
+  parseSoul,
+  parseSuite,
+  probesOf,
+  renderReport,
+  resolveGates,
+  resolveScoring,
+  resolveSoulFilePath,
+  scoreAll,
+} from "./soul/index.js";
+export type {
+  ResolveSoulFileOptions,
+  SoulAxiom,
+  SoulBaseline,
+  SoulEvalGates,
+  SoulEvalScoring,
+  SoulEvalSection,
+  SoulEvalSuite,
+  SoulFile,
+  SoulFileReader,
+  SoulGateRow,
+  SoulGradeResult,
+  SoulGradeStatus,
+  SoulMetrics,
+  SoulProbe,
+  SoulProbeExpect,
+  SoulProbeResponse,
+  SoulSectionD,
+} from "./soul/index.js";
+
 // Runtime
 export { AgentRuntime } from "./runtime.js";
 export { createExternalTurnFaultError } from "./runtime/helpers/turn-errors.js";
