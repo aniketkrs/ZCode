@@ -18,6 +18,7 @@ import { buildWorkflowActorIdentitySection } from "./sections/workflow-actor.js"
 import { buildEnvInfoSection, buildGitSystemContextSection } from "./sections/env-info.js";
 import { buildSkillsSection } from "./sections/skills.js";
 import { buildRequestUserContextSection } from "./sections/request-user-context.js";
+import { buildSoulSection } from "./sections/soul.js";
 import { buildCurrentDateSection } from "./sections/current-date.js";
 import { buildMemorySection } from "./sections/memory.js";
 import { buildDesktopContextSection } from "./sections/desktop.js";
@@ -194,6 +195,13 @@ export class ContextBuilder {
     });
     if (requestUserContextSection) {
       sections.push(requestUserContextSection);
+    }
+
+    // Soul constitution: compiled into the system prompt right after project
+    // instructions. Rejected souls are never passed in config.soul.
+    const soulSection = buildSoulSection(this.config.soul);
+    if (soulSection) {
+      sections.push(soulSection);
     }
 
     const currentDateSection = buildCurrentDateSection(this.config.currentDate);
